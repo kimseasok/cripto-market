@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-4 border-b border-gray-200 dark:border-gray-700 hidden">
+    <div class="mb-4 hidden border-b border-gray-200 dark:border-gray-700">
         <ul
             id="myTab"
             class="-mb-px flex flex-wrap text-center text-sm font-medium"
@@ -12,7 +12,7 @@
             >
                 <button
                     id="markets-tab"
-                    class="inline-block rounded-t-lg border-b-2 p-4 hidden"
+                    class="inline-block hidden rounded-t-lg border-b-2 p-4"
                     type="button"
                     role="tab"
                     aria-controls="markets"
@@ -204,31 +204,53 @@
         </ul>
     </div>
 
+    <!-- current change -->
+    <div class="slider card mb-5 w-full py-5 text-center">
+        <h1>Welcome to CityIndex</h1>
+    </div>
+
+    <div class="main-nav">
+        <ul>
+            <li @click.prevent="goTo('/wallets')">
+                <i class="bi bi-wallet-fill"></i>Deposit
+            </li>
+            <li @click.prevent="goTo('/wallets')">
+                <i class="bi bi-box-arrow-right"></i>Withdraw
+            </li>
+            <li><i class="bi bi-cart-fill"></i>Invest</li>
+            <li><i class="bi bi-person-add"></i>Invite friends</li>
+            <li><i class="bi bi-question"></i>Support</li>
+            <li></li>
+        </ul>
+    </div>
+
+    <div class="feature-list">
+        <ul v-if="list.length > 3" class="flex">
+            <li
+                v-for="feature in list.splice(0, 3)"
+                key="`itme-${feature.id}`"
+                class="card block text-center"
+            >
+                <span class="text-white">{{ feature.symbol }}</span>
+                <span :class="feature.class || ''"
+                    >{{ priceFormatter(feature.change, 2) || "" }}%</span
+                >
+                <span :class="feature.class || ''">{{
+                    priceFormatter(feature.price) || ""
+                }}</span>
+            </li>
+        </ul>
+    </div>
     <div
         v-if="plat.eco.ecosystem_trading_only != 1"
         :class="isActive('markets') ? '' : 'hidden'"
     >
-        <div
-            class="mb-4 items-center justify-between xs:block xs:space-y-5 sm:flex sm:space-y-0"
-        >
-            <h2 class="mb-1 text-xl font-medium hidden">{{ $t("Spot Markets") }}</h2>
-
-            <div class="grid gap-3 xs:grid-cols-1 md:grid-cols-1">
-                <Filter>
-                    <input
-                        v-model="filters.symbol.value"
-                        type="text"
-                        class="filter-input"
-                        placeholder="Symbol"
-                /></Filter>
-            </div>
-        </div>
-        <div id="market" class="card relative overflow-x-auto">
+        <div id="market" class="relative overflow-x-auto">
             <VTable
                 v-if="list.length > 0"
                 :key="list.length"
                 v-model:current-page="currentPage"
-                class="w-full text-left text-sm text-gray-500 dark:text-gray-400"
+                class="w-full text-left text-sm"
                 :data="list"
                 :filters="filters"
                 :page-size="10"
@@ -236,16 +258,14 @@
                 @totalPagesChanged="totalPages = $event"
             >
                 <template #head>
-                    <tr
-                        class="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400"
-                    >
+                    <tr class="text-xs uppercase text-gray-700">
                         <VTh
                             sort-key="symbol"
                             scope="col"
                             class="px-6 py-3"
                             style="width: 15%"
                         >
-                            <Col text="Symbol" />
+                            <Col text="Name" />
                         </VTh>
                         <VTh
                             sort-key="price"
@@ -263,23 +283,6 @@
                         >
                             <Col text="Change" />
                         </VTh>
-                        <th scope="col" class="px-6 py-3"></th>
-                        <VTh
-                            sort-key="baseVolume"
-                            scope="col"
-                            class="hidden px-6 py-3 md:block"
-                            style="width: 25%"
-                        >
-                            <Col text="Volume" />
-                        </VTh>
-                        <!-- <VTh
-              sort-key="action"
-              scope="col"
-              class="px-6 py-3 hidden md:block"
-              style="width: 15%;"
-            >
-              <Col text="Action" />
-            </VTh> -->
                     </tr>
                 </template>
                 <template #body="{ rows }">
@@ -287,28 +290,22 @@
                         <tr
                             v-for="row in rows"
                             :key="row.id"
-                            class="clickable border-b bg-white dark:border-gray-700 dark:bg-gray-800"
+                            class="clickable"
                             @click="trade(row.symbol)"
                         >
                             <td
                                 data-label="Symbol"
                                 class="flex items-center px-6 py-4"
                             >
-                                <div class="tokenicon-wrap">
-                                    <img
-                                        v-lazy="
-                                            row.base
-                                                ? '/assets/images/cryptoCurrency/' +
-                                                  row.base.toLowerCase() +
-                                                  '.png'
-                                                : '/market/notification.png'
-                                        "
-                                        class="tokenicon-image"
-                                    />
+                                <div class="relative">
+                                    <span class="font-medium text-white"
+                                        >{{ pairSymbol(row.symbol)[0] }}/</span
+                                    >
+                                    <span
+                                        class="secondary-symbol absolute bottom-0"
+                                        >{{ pairSymbol(row.symbol)[1] }}</span
+                                    >
                                 </div>
-                                <span class="font-medium">{{
-                                    row.symbol
-                                }}</span>
                             </td>
                             <td data-label="price">
                                 <span
@@ -316,64 +313,20 @@
                                     :class="row.class || ''"
                                     >{{ priceFormatter(row.price) || "" }}</span
                                 >
-                                {{ row.quote }}
                             </td>
-                            <td>
-                                <div class="well">
-                                    <section
-                                        :class="{
-                                            transparent: !row.history,
-                                        }"
-                                    >
-                                        <svg
-                                            :class="row.class"
-                                            :viewBox="svgBox"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <LineChartList
-                                                :values="
-                                                    points(
-                                                        width,
-                                                        height,
-                                                        history[row.symbol]
-                                                    )
-                                                "
-                                            ></LineChartList>
-                                        </svg>
-                                    </section>
-                                </div>
-                            </td>
-                            <td data-label="change">
-                                <span
-                                    class="mr-1 text-start"
-                                    :class="row.classChange || ''"
-                                    >{{
-                                        priceFormatter(row.change, 2) || ""
-                                    }}%</span
+                            <td data-label="change" class="px-3">
+                                <p
+                                    class="btn btn-sm btn-change w-full"
+                                    :class="{
+                                        'btn-danger':
+                                            row.class === 'text-danger',
+                                        'btn-success':
+                                            row.class !== 'text-danger',
+                                    }"
                                 >
+                                    {{ priceFormatter(row.change, 2) || "" }}%
+                                </p>
                             </td>
-                            <td data-label="volume" class="hidden md:block">
-                                <div class="mr-1 text-start">
-                                    {{
-                                        priceFormatter(row.baseVolume, 2) || ""
-                                    }}
-                                    {{ row.base }}
-                                </div>
-                                <div class="mr-1 text-start">
-                                    {{
-                                        priceFormatter(row.quoteVolume, 2) || ""
-                                    }}
-                                    {{ row.quote }}
-                                </div>
-                            </td>
-
-                            <!-- <td class="px-6 py-3 hidden md:block" style="width: 20%;" data-label="Action">
-                <router-link class="" :to="'trade/' + row.symbol"
-                  ><button class="btn btn-outline-primary">
-                    {{ $t("Trade") }}
-                  </button>
-                </router-link>
-              </td> -->
                         </tr>
                     </template>
                     <template v-else>
@@ -1009,62 +962,6 @@
             </VTable>
         </div>
     </div>
-    <div id="advantage">
-      <h2 class="text-2xl text-center mt-5">Our advantage</h2>
-      <div class="card feature-items flex mt-5">
-        <div><i class="bi bi-shield-lock-fill pr-3"></i></div>
-        <div>
-          <p class="feature-item-title font-semibold dark:text-white">Security and stability Reliable technology</p>
-          <p>The top technical team, all-round security protection, independent research and development of high-efficiency engines, can still operate reliably under massive and high concurrency. </p>
-        </div>
-      </div>
-      <div class="card feature-items flex my-3">
-        <div><i class="bi bi-box pr-3"></i></div>
-        <div>
-          <p class="feature-item-title dark:text-white">Professional operation Mature Experience</p>
-          <p>The top technical team, all-round security protection, independent research and development of high-efficiency engines, can still operate reliably under massive and high concurrency. </p>
-        </div>
-      </div>
-      <div class="card feature-items flex my-3">
-        <div><i class="bi bi-people pr-3"></i></div>
-        <div>
-          <p class="feature-item-title dark:text-white">Security and stability Reliable technology</p>
-          <p>The top technical team, all-round security protection, independent research and development of high-efficiency engines, can still operate reliably under massive and high concurrency. </p>
-        </div>
-      </div>
-      <div class="card feature-items flex">
-        <div><i class="bi bi-people pr-3"></i></div>
-        <div>
-          <p class="feature-item-title dark:text-white">Security and stability Reliable technology</p>
-          <p>The top technical team, all-round security protection, independent research and development of high-efficiency engines, can still operate reliably under massive and high concurrency. </p>
-        </div>
-      </div>
-    </div>
-    <div id="about-cityindexx" class="mt-5">
-      <h2 class="text-2xl text-center dark:text-white">About CityIndexx</h2>
-        <ul class="mt-5">
-          <li @click="activeAbout = 1" :class="activeAbout === 1 ? 'active' : ''"><i class="bi bi-folder-symlink"></i></li>
-          <li @click="activeAbout = 2" :class="activeAbout === 2 ? 'active' : ''"><i class="bi bi-person-hearts"></i></li>
-          <li @click="activeAbout = 3" :class="activeAbout === 3 ? 'active' : ''"><i class="bi bi-people"></i></li>
-        </ul>
-        <div v-if="activeAbout === 1" class="text-center mt-5">
-          <h3 class="text-xl dark:text-white">4 industry regulations</h3>
-          <p>This platform is well-known throughout the industry as a trustworthy and reliable broker. We are regulated by the FCA, CySEC, FSCA and MSB.</p>
-        </div>
-        <div v-if="activeAbout === 2" class="text-center mt-5">
-          <h3 class="text-xl dark:text-white">5 stars customer service</h3>
-          <p>Our dedicated, multilingual customer service team works 24/7 to provide you with an exceptional level of support.</p>
-        </div>
-        <div v-if="activeAbout === 3" class="text-center mt-5">
-          <h3 class="text-xl dark:text-white">1,746,592+ client accounts</h3>
-          <p>This platform has been providing online trading services to clients since 2016 and it currently serves 173 countries worldwide.</p>
-        </div>
-    </div>
-    <div class="text-center mt-8 pb-5">
-      <h2 class="text-1xl text-center dark:text-white">Transaction anytime, anywhere</h2>
-      <p>Perfectly satisfy multi-terminal, convenient transaction anytime, anywhere</p>
-      <p class="mb-5"></p>
-    </div>
 </template>
 
 <script>
@@ -1138,7 +1035,7 @@ export default {
                 plat.eco.ecosystem_trading_only == 1
                     ? "main_markets"
                     : "markets",
-            activeAbout: 2
+            activeAbout: 2,
         };
     },
     computed: {
@@ -1185,11 +1082,17 @@ export default {
         }
     },
     methods: {
-        moveAbout(){
-          return 1
+        moveAbout() {
+            return 1;
+        },
+        goTo(url) {
+            this.$router.push({ path: url });
         },
         trade(symbol) {
             this.$router.push({ path: `trade/${symbol}` });
+        },
+        pairSymbol(symbol) {
+            return symbol.split("/");
         },
         renderSymbol(symbol) {
             const [baseSymbol, quoteSymbol] = symbol.split("/");
@@ -1502,6 +1405,66 @@ $iconSize: 46px;
 $colorInfo: darken(slategray, 15%);
 $colorInfoText: lighten($colorInfo, 45%);
 
+.secondary-symbol {
+    font-size: 0.7em;
+    line-height: normal;
+}
+
+.main-nav {
+    ul {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        li {
+            margin: 0.5em 0;
+            display: block;
+            width: 33.333%;
+            text-align: center;
+
+            i {
+                display: block;
+                margin: 0 auto;
+                color: #2aabee;
+                width: 48px;
+                height: 48px;
+                border: 1px solid #2aabee;
+                border-radius: 25px;
+
+                &::before {
+                    font-size: 1.5em;
+                    position: relative;
+                    top: 12px;
+                }
+            }
+        }
+    }
+}
+
+.feature-list {
+    margin: 1em 0;
+    ul {
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .card {
+            padding: 0.5em 0;
+            border-radius: 0;
+        }
+
+        li {
+            width: 32%;
+
+            span {
+                display: block;
+            }
+        }
+    }
+}
+
+.btn-change {
+    border-radius: 0 !important;
+}
 // comp wrapper
 .tokenicon-wrap {
     display: block;

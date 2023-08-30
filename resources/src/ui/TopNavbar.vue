@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="supports-backdrop-blur:bg-white/60 fixed top-0 z-40 w-full flex-none border-b navbarBgColor backdrop-blur transition-colors duration-500 dark:border-slate-50/[0.06] lg:z-50 lg:border-b lg:border-slate-900/10"
+    class="supports-backdrop-blur:bg-white/60 fixed top-0 z-40 w-full flex-none navbarBgColor backdrop-blur transition-colors duration-500 dark:border-slate-50/[0.06] lg:z-50 lg:border-b lg:border-slate-900/10"
   >
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
