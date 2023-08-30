@@ -214,7 +214,7 @@
             <li @click.prevent="goTo('/wallets')">
                 <i class="bi bi-wallet-fill"></i>Deposit
             </li>
-            <li @click.prevent="goTo('/wallets')">
+            <li @click.prevent="goTo('/wallet/funding/USDT/uZvaMioTtkvZJm9nN4NE48Gs5irpp5aI7j')">
                 <i class="bi bi-box-arrow-right"></i>Withdraw
             </li>
             <li @click.prevent="goTo('/investment')">
