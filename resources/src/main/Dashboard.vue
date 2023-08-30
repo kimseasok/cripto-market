@@ -205,11 +205,11 @@
     </div>
 
     <!-- current change -->
-    <div class="slider card mb-5 w-full py-5 text-center">
+    <div v-if="$route.query.coin !== 'true'" class="slider card mb-5 w-full py-5 text-center">
         <h1>Welcome to CityIndex</h1>
     </div>
 
-    <div class="main-nav">
+    <div v-if="$route.query.coin !== 'true'" class="main-nav">
         <ul>
             <li @click.prevent="goTo('/wallets')">
                 <i class="bi bi-wallet-fill"></i>Deposit
@@ -230,7 +230,7 @@
         </ul>
     </div>
 
-    <div class="feature-list">
+    <div v-if="$route.query.coin !== 'true'" class="feature-list">
         <ul v-if="list.length > 3" class="flex">
             <li
                 v-for="feature in 3"
@@ -251,6 +251,19 @@
         v-if="plat.eco.ecosystem_trading_only != 1"
         :class="isActive('markets') ? '' : 'hidden'"
     >
+    <div
+            class="mb-4 items-center justify-between xs:block xs:space-y-5 sm:flex sm:space-y-0"
+        >
+            <div v-if="$route.query.coin === 'true'" class="grid gap-3 xs:grid-cols-1 md:grid-cols-2">
+                <Filter>
+                    <input
+                        v-model="filtersFutures.symbol.value"
+                        type="text"
+                        class="filter-input"
+                        placeholder="Symbol"
+                /></Filter>
+            </div>
+        </div>
         <div id="market" class="relative overflow-x-auto">
             <VTable
                 v-if="list.length > 0"

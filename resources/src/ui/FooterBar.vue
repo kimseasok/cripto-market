@@ -10,7 +10,7 @@
                 </router-link>
             </li>
             <li>
-                <router-link to="/wallets">
+                <router-link to="/dashboard?coin=true">
                     <i class="bi bi-bar-chart-line-fill"></i>Buy Coins
                 </router-link>
             </li>
