@@ -23,6 +23,8 @@ Route::group(['middleware' => config('jetstream.middleware', ['web'])], function
                 ->name('profile.show');
             Route::get('referal', [UserProfileController::class, 'referal'])
                 ->name('profile.referal');
+                Route::get('support', [UserProfileController::class, 'support'])
+                ->name('profile.support');
         });
         Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], function () {
             // User & Profile...

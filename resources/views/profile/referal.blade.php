@@ -6,17 +6,22 @@
     </h2>
 </x-slot>
 
-<div>
+<div id="referal-page">
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-        <h2 class="dark:text-white text-xl text-center items-center">Invite fiends</h2>
-        <p class="mb-5">When you invite your friends to trade, you will get a discount. Example: You are A and you invite B. B invites C. C invited D. Purchase transaction B, you will get 35% of one percent of transaction B purchase fee
-            When purchasing transaction C, you will get transaction C purchase fee 25%
-            When transaction D is purchased, you will get 10% of transaction D’s purchase fee</p>
-        <div id="rq mt-3 text-center">
+        <h2 class="dark:text-white text-xl text-center items-center mb-8">RECOMMEND FRIENDS<br />AND EARN UP TO 35% COMMISSION</h2>
+        <div class="rq flex item-center">
             {!! QrCode::size(300)->generate("https://cityindexx.com/{{$user->username}}") !!}
-            <div class="mt-5">
-                <input type="text" class="w-full" value="https://cityindexx.com/register/{{$user->username}}" disabled>
-            </div>
+        </div>
+        <div class="download-button my-8 text-center"><button class="btn btn-primary">DOWNLOAD</button></div>
+        <div class="mt-5 relative">
+            <label for="ref-code">Referal code</label>
+            <input type="text" class="w-full" value="{{$user->username}}" disabled>
+            <i class="bi bi-files absolute"></i>
+        </div>
+        <div class="mt-5 relative">
+            <label for="ref-link">Referal link</label>
+            <input type="text" class="w-full" value="https://cityindexx.com/register/{{$user->username}}" disabled>
+            <i class="bi bi-files absolute"></i>
         </div>
     </div>
 

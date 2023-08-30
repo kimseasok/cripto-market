@@ -15,9 +15,9 @@
                 </router-link>
             </li>
             <li>
-                <router-link to="/user/referal">
-                    <i class="bi bi-house-fill"></i>Home
-                </router-link>
+                <a @click.prevent="goTo(`${homeUrl}/user/referal`)">
+                    <i class="bi bi-person-add"></i>Invite
+                </a>
             </li>
             <li>
                 <router-link to="/binary/trade/BTC/USDT">
@@ -30,75 +30,6 @@
                 </router-link>
             </li>
         </u>
-        <!-- <div class="md:mb-0 xl:flex xl:items-center xl:space-x-3">
-      <p
-        class="hidden text-center text-sm text-gray-500 dark:text-gray-400 md:block xl:mb-0"
-      >
-        &copy;
-        {{ getCurrentYear }}
-        {{ siteName }}.
-        {{ $t("All rights Reserved") }}
-      </p>
-    </div>
-    <div class="flex items-center justify-center space-x-3">
-      <button
-        v-sound
-        ref="dropdownButton"
-        id="dropdownLanguageButton"
-        class="flex items-center rounded-full p-1.5 text-sm font-medium text-gray-900 hover:text-primary-600 focus:ring-4 focus:ring-gray-100 dark:text-white dark:hover:text-primary-500 dark:focus:ring-gray-700 md:mr-0"
-        type="button"
-        @click="toggleLanguageDropdown"
-      >
-        <span class="sr-only">Open user menu</span>
-
-        <div class="inline-flex items-center">
-          <img
-            v-lazy="'/assets/flags/' + locales[$i18n.locale].icon + '.svg'"
-            class="mr-2 h-3.5 w-3.5 rounded-full"
-          />
-          {{ locales[$i18n.locale].lang }}
-        </div>
-        <svg
-          class="mx-1.5 h-4 w-4"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            :d="
-              languageDropdownVisible
-                ? 'M4.5 8.25l7.5 7.5 7.5-7.5'
-                : 'M4.5 15.75l7.5-7.5 7.5 7.5'
-            "
-          />
-        </svg>
-      </button>
-      <button
-        v-sound
-        class="inline-flex cursor-pointer justify-center rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-        @click="toggleFullScreen()"
-      >
-        <svg
-          id="toggleFullScreen"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="h-5 w-5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
-          />
-        </svg>
-      </button>
-    </div> -->
     </footer>
     <div
         id="dropdownLanguage"
@@ -256,10 +187,15 @@ export default {
         document.removeEventListener("click", handleClickOutside);
         window.removeEventListener("resize", handleResize);
     },
+    methods: {
+        goTo(url) {
+            window.location.href = url;
+        },
+    },
     computed: {
-        homeUrl(){
-            return windows.location;
-        }
-    }
+        homeUrl() {
+            return window.location.origin;
+        },
+    },
 };
 </script>

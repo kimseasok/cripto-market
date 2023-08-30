@@ -217,9 +217,15 @@
             <li @click.prevent="goTo('/wallets')">
                 <i class="bi bi-box-arrow-right"></i>Withdraw
             </li>
-            <li><i class="bi bi-cart-fill"></i>Invest</li>
-            <li @click.prevent="goTo(`${homeUrl}/user/referal`)"><i class="bi bi-person-add"></i>Invite friends</li>
-            <li><i class="bi bi-question"></i>Support</li>
+            <li @click.prevent="goTo('/investment')">
+                <i class="bi bi-cart-fill"></i>Invest
+            </li>
+            <li @click.prevent="goTo(`${homeUrl}/user/referal`)">
+                <i class="bi bi-person-add"></i>Invite friends
+            </li>
+            <li @click.prevent="goTo(`${homeUrl}/user/support`)">
+                <i class="bi bi-question"></i>Support
+            </li>
             <li></li>
         </ul>
     </div>
@@ -227,16 +233,16 @@
     <div class="feature-list">
         <ul v-if="list.length > 3" class="flex">
             <li
-                v-for="feature in list.splice(0, 3)"
+                v-for="feature in 3"
                 key="`itme-${feature.id}`"
                 class="card block text-center"
             >
-                <span class="text-white">{{ feature.symbol }}</span>
+                <span class="text-white">{{ list[feature].symbol }}</span>
                 <span :class="feature.class || ''"
-                    >{{ priceFormatter(feature.change, 2) || "" }}%</span
+                    >{{ priceFormatter(list[feature].change, 2) || "" }}%</span
                 >
-                <span :class="feature.class || ''">{{
-                    priceFormatter(feature.price) || ""
+                <span :class="list[feature].class || ''">{{
+                    priceFormatter(list[feature].price) || ""
                 }}</span>
             </li>
         </ul>
@@ -1045,9 +1051,9 @@ export default {
         market() {
             return this.marketStore[this.activeTab][this.activeItem];
         },
-        homeUrl(){
+        homeUrl() {
             return window.location.origin;
-        }
+        },
     },
     watch: {
         activeItem() {
@@ -1089,9 +1095,9 @@ export default {
             return 1;
         },
         goTo(url) {
-            if (url.substring(0, 4) === 'http'){
-                window.location.href = url
-                return true
+            if (url.substring(0, 4) === "http") {
+                window.location.href = url;
+                return true;
             }
             this.$router.push({ path: url });
         },

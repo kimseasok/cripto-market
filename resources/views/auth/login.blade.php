@@ -48,8 +48,8 @@
             }
         });
     </script>
-    <section id="login-page" class="bg-gray-90 dark p-8">
-        <div class="text-right text-white">
+    <section id="login-page">
+        <div class="text-right pr-5 pt-3">
             <p class="text-sm font-light text-gray-500 dark:text-gray-300">
                 <a href="{{ route('register') }}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Register</a>
             </p>
@@ -61,7 +61,7 @@
             <div class="w-full place-self-center lg:col-span-6">
 
                 <div>
-                    <img src="/assets/images/logoIcon/logo-dark.png" alt="logo" class="logo">
+                    <img src="/assets/images/logoIcon/logo-dark.png" alt="logo" class="logo mb-5 px-8">
                 </div>
 
                 <div class="p-6 mx-auto rounded-lg sm:max-w-xl sm:p-8">
@@ -90,7 +90,7 @@
                         <div class="grid gap-6 sm:grid-cols-2">
                             <div>
                                 <x-jet-label for="email" value="{{ __('Email') }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white hidden" />
-                                <x-jet-input id="email" class="bg-dark border border-gray-800 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" name="email" :value="old('email')" required autofocus placeholder="Account Email" />
+                                <x-jet-input id="email" type="text" name="email" :value="old('email')" required autofocus placeholder="Account Email" />
                             </div>
                             <div>
                                 <x-jet-label for="password" value="{{ __('Password') }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white hidden" />
@@ -110,11 +110,6 @@
                             </a>
                             @endif
                         </div>
-
-                        <div class="description">
-                            <p class="text-white">Please make sure your account is safe, when you click sign in your account.</p>
-                        </div>
-
                         <div>
                             <x-jet-button class="w-full text-white bg-gray-900 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                 <div role="status" id="spinner" class="hidden">

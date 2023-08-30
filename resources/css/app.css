@@ -2393,7 +2393,17 @@ a{
 
 #login-page,
 #register-page{
-    background-color: #171a1e;
+    background-color: #313439;
+}
+
+#register-page input[type="text"],
+#register-page input[type="email"],
+#register-page input[type="password"],
+#login-page input[type="text"],
+#login-page input[type="password"] {
+    border: none !important;
+    border-radius: 2px !important;
+    background-color: #4C4E50 !important;
 }
 
 #login-page .logo,
@@ -2403,18 +2413,44 @@ a{
 
 #login-page a,
 #register-page a {
-    color: #fff;
+    color: #2aabee;
+    text-decoration: none;
 }
 
-#login-page .description {
-    color: #a3a2a2;
+#register-page .tos,
+#register-page .tos a {
+    color: #fff;
     font-size: .85em;
 }
 
 #login-page button,
 #register-page button {
     color: #fff;
-    background-color: #282828;
+    text-align: center;
+    background-color: #2aabee;
+    border-radius: 0 !important;
+}
+
+#referal-page .btn-primary {
+    border-radius: 0;
+    width: 70% !important;
+    background-color: #2aabee !important;
+}
+
+#referal-page i {
+    right: 8px;
+    bottom: 10px;
+}
+
+#referal-page input[type="text"]{
+    border: none;
+    color: #fff;
+    background-color: #4C4E50;
+}
+
+.rq svg {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
