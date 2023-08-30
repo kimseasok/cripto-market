@@ -218,7 +218,7 @@
                 <i class="bi bi-box-arrow-right"></i>Withdraw
             </li>
             <li><i class="bi bi-cart-fill"></i>Invest</li>
-            <li><i class="bi bi-person-add"></i>Invite friends</li>
+            <li @click.prevent="goTo(`${homeUrl}/user/referal`)"><i class="bi bi-person-add"></i>Invite friends</li>
             <li><i class="bi bi-question"></i>Support</li>
             <li></li>
         </ul>
@@ -1045,6 +1045,9 @@ export default {
         market() {
             return this.marketStore[this.activeTab][this.activeItem];
         },
+        homeUrl(){
+            return window.location.origin;
+        }
     },
     watch: {
         activeItem() {
@@ -1086,6 +1089,10 @@ export default {
             return 1;
         },
         goTo(url) {
+            if (url.substring(0, 4) === 'http'){
+                window.location.href = url
+                return true
+            }
             this.$router.push({ path: url });
         },
         trade(symbol) {

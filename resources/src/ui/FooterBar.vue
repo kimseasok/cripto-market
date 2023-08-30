@@ -15,9 +15,9 @@
                 </router-link>
             </li>
             <li>
-                <a href="https://cityindexx.com/user/referal">
-                    <i class="bi bi-person-plus-fill"></i>Invite
-                </a>
+                <router-link to="/user/referal">
+                    <i class="bi bi-house-fill"></i>Home
+                </router-link>
             </li>
             <li>
                 <router-link to="/binary/trade/BTC/USDT">
@@ -256,5 +256,10 @@ export default {
         document.removeEventListener("click", handleClickOutside);
         window.removeEventListener("resize", handleResize);
     },
+    computed: {
+        homeUrl(){
+            return windows.location;
+        }
+    }
 };
 </script>
