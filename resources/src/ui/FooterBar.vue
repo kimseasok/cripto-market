@@ -11,13 +11,8 @@
             </li>
             <li>
                 <router-link to="/dashboard?coin=true">
-                    <i class="bi bi-bar-chart-line-fill"></i>Buy Coins
+                    <i class="bi bi-bar-chart-line-fill"></i>Qoutations
                 </router-link>
-            </li>
-            <li>
-                <a @click.prevent="goTo(`${homeUrl}/user/referal`)">
-                    <i class="bi bi-person-add"></i>Invite
-                </a>
             </li>
             <li>
                 <router-link to="/binary/trade/BTC/USDT">
@@ -25,7 +20,7 @@
                 </router-link>
             </li>
             <li>
-                <router-link to="/binary" exact>
+                <router-link to="/wallets" exact>
                     <i class="bi bi-wallet-fill"></i>Asset
                 </router-link>
             </li>
